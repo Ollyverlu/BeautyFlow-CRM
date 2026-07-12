@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Banco de dados
+crm_beleza.db
+
+# Arquivos de ambiente
+.env
+
+# Backups
+backups/
+
+# Fotos dos clientes
+assets/imagens/clientes/
+
+# Arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# Ambiente virtual
+venv/
+.venv/
