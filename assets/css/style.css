@@ -265,3 +265,130 @@ hr {
         font-size: 30px !important;
     }
 }
+
+/* ==================================================
+   BEAUTYFLOW CRM - ACABAMENTO PREMIUM
+   ================================================== */
+
+.block-container {
+    max-width: 1400px;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+h1 {
+    font-size: 2.25rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+h2 {
+    font-size: 1.55rem !important;
+    font-weight: 750 !important;
+}
+
+h3 {
+    font-size: 1.18rem !important;
+    font-weight: 700 !important;
+}
+
+/* Cartões e métricas */
+[data-testid="stMetric"] {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(184, 90, 107, 0.18);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(93, 58, 72, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(93, 58, 72, 0.13);
+}
+
+[data-testid="stMetricLabel"] {
+    font-weight: 700;
+}
+
+[data-testid="stMetricValue"] {
+    font-weight: 800;
+}
+
+/* Containers com borda */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(93, 58, 72, 0.07);
+}
+
+/* Botões */
+.stButton > button,
+.stDownloadButton > button,
+.stLinkButton > a {
+    border-radius: 12px !important;
+    min-height: 46px;
+    font-weight: 700 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover,
+.stLinkButton > a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(93, 58, 72, 0.18);
+}
+
+/* Campos */
+[data-baseweb="input"] > div,
+[data-baseweb="select"] > div,
+textarea {
+    border-radius: 12px !important;
+}
+
+/* Abas */
+button[data-baseweb="tab"] {
+    font-weight: 700;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Tabelas */
+[data-testid="stDataFrame"] {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* Mensagens */
+[data-testid="stAlert"] {
+    border-radius: 14px;
+}
+
+/* Menu lateral */
+section[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(184, 90, 107, 0.16);
+}
+
+section[data-testid="stSidebar"] [data-testid="stRadio"] label {
+    padding: 7px 8px;
+    border-radius: 10px;
+}
+
+/* Melhor visual no celular */
+@media (max-width: 768px) {
+    .block-container {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+        padding-top: 1rem;
+    }
+
+    h1 {
+        font-size: 1.75rem !important;
+    }
+
+    h2 {
+        font-size: 1.35rem !important;
+    }
+
+    [data-testid="stMetric"] {
+        padding: 14px;
+    }
+}

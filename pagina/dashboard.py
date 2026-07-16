@@ -7,7 +7,12 @@ import streamlit as st
 
 from banco import conectar
 from config import LIMITE_ESTOQUE_BAIXO
+from pagina.dashboard_cards import mostrar_cards_premium
+from pagina.dashboard_meta import mostrar_meta_diaria
+from pagina.dashboard_comissoes import (
+    mostrar_painel_atendimentos_dashboard               
 
+)
 
 # ==================================================
 # TEXTOS DO DASHBOARD
@@ -410,6 +415,14 @@ def mostrar_dashboard():
                 mes_dia_atual,
             )
         )
+        
+        mostrar_cards_premium()
+
+        st.markdown("---")
+        
+        mostrar_meta_diaria()
+
+        st.markdown("---")
 
         # ==================================================
         # RESUMO DO DIA
@@ -580,8 +593,12 @@ def mostrar_dashboard():
 
                 st.rerun()
 
-        st.markdown("---")
+        st.markdown("---") 
 
+        mostrar_painel_atendimentos_dashboard()
+
+        st.markdown("---")
+        
         # ==================================================
         # VISÃO GERAL
         # ==================================================

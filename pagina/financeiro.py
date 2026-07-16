@@ -10,6 +10,7 @@ from banco import conectar
 CATEGORIAS = [
     "Venda de Produto",
     "Serviço Realizado",
+    
     "Compra de Material",
     "Conta de Água",
     "Conta de Luz",

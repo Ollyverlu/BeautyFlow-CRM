@@ -292,25 +292,30 @@ def mostrar_clientes():
 
         with coluna2:
 
-            nascimento = st.date_input(
-                "Data de nascimento",
-                value=date.today(),
-                format="DD/MM/YYYY",
-                key="cad_nascimento"
-            )
+            from datetime import date
 
-            endereco = st.text_input(
+         
+        nascimento = st.date_input(
+            "🎂 Data de nascimento",
+            value=date(1990, 1, 1),
+            min_value=date(1900, 1, 1),
+            max_value=date.today(),
+            format="DD/MM/YYYY",
+            key="cad_nascimento"
+)
+
+        endereco = st.text_input(
                 "Endereço",
                 key="cad_endereco"
             )
 
-            servico_favorito = st.selectbox(
-                "Serviço favorito",
+        servico_favorito = st.selectbox(
+               "Serviço favorito",
                 LISTA_SERVICOS,
                 key="cad_servico_favorito"
             )
 
-            foto = st.file_uploader(
+        foto = st.file_uploader(
                 "Foto da cliente",
                 type=[
                     "png",
@@ -747,6 +752,187 @@ def mostrar_clientes():
                     hide_index=True
                 )
 
+            # ==================================================
+            # HISTÓRICO DE ATENDIMENTOS E COMISSÕES
+            # ==================================================
+            st.markdown("---")
+
+            st.subheader(
+                "💇 Histórico de Atendimentos"
+            )
+
+            conn = conectar()
+
+            historico_atendimentos = pd.read_sql_query(
+                """
+                SELECT
+                    data,
+                    funcionario_nome,
+                    servico,
+                    valor_servico,
+                    percentual_comissao,
+                    valor_comissao,
+                    valor_salao,
+                    observacao
+                FROM atendimentos_comissoes
+                WHERE LOWER(cliente) = LOWER(?)
+                ORDER BY data DESC, id DESC
+                """,
+                conn,
+                params=(nome_cliente,)
+            )
+
+            conn.close()
+
+            if historico_atendimentos.empty:
+
+                st.info(
+                    "Ainda não existem atendimentos "
+                    "realizados para esta cliente."
+                )
+
+            else:
+
+                total_atendimentos = len(
+                    historico_atendimentos
+                )
+
+                total_servicos = float(
+                    historico_atendimentos[
+                        "valor_servico"
+                    ].sum()
+                )
+
+                ultima_visita = (
+                    historico_atendimentos.iloc[0][
+                        "data"
+                    ]
+                )
+
+                try:
+
+                    ultima_visita_formatada = (
+                        datetime.strptime(
+                            str(ultima_visita),
+                            "%Y-%m-%d"
+                        ).strftime(
+                            "%d/%m/%Y"
+                        )
+                    )
+
+                except (ValueError, TypeError):
+
+                    ultima_visita_formatada = str(
+                        ultima_visita
+                    )
+
+                coluna_historico1, coluna_historico2, coluna_historico3 = (
+                    st.columns(3)
+                )
+
+                coluna_historico1.metric(
+                    "💇 Atendimentos realizados",
+                    total_atendimentos
+                )
+
+                coluna_historico2.metric(
+                    "💰 Total em serviços",
+                    formatar_moeda(
+                        total_servicos
+                    )
+                )
+
+                coluna_historico3.metric(
+                    "📅 Última visita",
+                    ultima_visita_formatada
+                )
+
+                st.markdown("---")
+
+                tabela_atendimentos = (
+                    historico_atendimentos.copy()
+                )
+
+                tabela_atendimentos[
+                    "Data"
+                ] = tabela_atendimentos[
+                    "data"
+                ].apply(
+                    lambda valor: (
+                        datetime.strptime(
+                            str(valor),
+                            "%Y-%m-%d"
+                        ).strftime(
+                            "%d/%m/%Y"
+                        )
+                        if valor
+                        else ""
+                    )
+                )
+
+                tabela_atendimentos[
+                    "Valor do Serviço"
+                ] = tabela_atendimentos[
+                    "valor_servico"
+                ].apply(
+                    formatar_moeda
+                )
+
+                tabela_atendimentos[
+                    "Comissão (%)"
+                ] = tabela_atendimentos[
+                    "percentual_comissao"
+                ].apply(
+                    lambda valor: (
+                        f"{float(valor):.2f}%"
+                    )
+                )
+
+                tabela_atendimentos[
+                    "Valor da Comissão"
+                ] = tabela_atendimentos[
+                    "valor_comissao"
+                ].apply(
+                    formatar_moeda
+                )
+
+                tabela_atendimentos[
+                    "Valor do Salão"
+                ] = tabela_atendimentos[
+                    "valor_salao"
+                ].apply(
+                    formatar_moeda
+                )
+
+                tabela_atendimentos = (
+                    tabela_atendimentos.rename(
+                        columns={
+                            "funcionario_nome":
+                                "Funcionária",
+                            "servico":
+                                "Serviço",
+                            "observacao":
+                                "Observações"
+                        }
+                    )
+                )
+
+                st.dataframe(
+                    tabela_atendimentos[
+                        [
+                            "Data",
+                            "Funcionária",
+                            "Serviço",
+                            "Valor do Serviço",
+                            "Comissão (%)",
+                            "Valor da Comissão",
+                            "Valor do Salão",
+                            "Observações"
+                        ]
+                    ],
+                    use_container_width=True,
+                    hide_index=True
+                )
     # ==================================================
     # EDITAR CLIENTE
     # ==================================================

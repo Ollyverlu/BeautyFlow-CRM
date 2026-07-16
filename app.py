@@ -21,6 +21,9 @@ from pagina.backup import mostrar_backup
 from pagina.trocar_senha import mostrar_trocar_senha
 from pagina.configuracoes import mostrar_configuracoes
 from pagina.sobre import mostrar_sobre
+from pagina.funcionarios import mostrar_funcionarios
+from pagina.comissoes import mostrar_comissoes
+from pagina.antes_depois import mostrar_antes_depois
 
 
 # =========================================================
@@ -208,8 +211,9 @@ def menu_administrador():
             "📅 Agenda",
             "🛍️ Produtos",
             "💰 Vendas",
+            "📸 Antes e Depois",
             "💰 Financeiro",
-            "💵 Caixa do Dia",
+            "💰 Caixa Diário",
             "📊 Relatórios",
             "📋 Consultar Dados",
             "📱 WhatsApp e Instagram",
@@ -217,7 +221,10 @@ def menu_administrador():
             "📦 Backup",
             "🔑 Trocar Senha",
             "⚙️ Configurações",
-            "✨ Sobre o Sistema"
+            "✨ Sobre o Sistema",
+            "👩‍💼 Funcionários",
+            "💰 Atendimentos e Comissões"
+
         ]     
    )
 
@@ -262,11 +269,14 @@ def abrir_pagina(menu):
     elif menu == "💰 Vendas":
         mostrar_vendas()
 
+    elif menu == "📸 Antes e Depois":
+        mostrar_antes_depois()
+
     elif menu == "💰 Financeiro":
         mostrar_financeiro()
-
-    elif menu == "💵 Caixa do Dia":
-        mostrar_caixa()
+ 
+    elif menu == "💰 Caixa Diário": 
+       mostrar_caixa()
 
     elif menu == "📊 Relatórios":
         mostrar_relatorios()
@@ -291,6 +301,13 @@ def abrir_pagina(menu):
 
     elif menu == "✨ Sobre o Sistema":
          mostrar_sobre()   
+
+    elif menu == "👩‍💼 Funcionários":
+         mostrar_funcionarios()
+
+    elif menu == "💰 Atendimentos e Comissões":
+         mostrar_comissoes()
+
 
 # =========================================================
 # ÁREA PRINCIPAL DO SISTEMA
