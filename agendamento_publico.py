@@ -1,8 +1,9 @@
+
 from datetime import date, timedelta
 from urllib.parse import quote
+from pathlib import Path
 
 import streamlit as st
-
 
 # ==================================================
 # CONFIGURAÇÕES
@@ -163,11 +164,103 @@ def criar_link_whatsapp(
         f"https://wa.me/{WHATSAPP_SALAO}"
         f"?text={quote(mensagem)}"
     )
+# ==================================================
+# BANNER
+# ==================================================
 
+CAMINHO_BANNER = (
+    Path(__file__).resolve().parent
+    / "assets"
+    / "imagens"
+    / "clientes"
+    / "banner_principal.png"
+)
+
+if CAMINHO_BANNER.exists():
+
+    st.image(
+        str(CAMINHO_BANNER),
+        use_container_width=True
+    )
+
+else:
+
+    st.error(
+        f"Banner não encontrado em:\n{CAMINHO_BANNER}"
+    )
 
 # ==================================================
 # CABEÇALHO
 # ==================================================
+
+st.title("🌸 Luciana Ollyver Beauty")
+
+st.markdown(
+    """
+### 🌸 Bem-vinda!
+
+Sou **Luciana Oliveira de Albuquerque**, especialista em beleza, apaixonada por transformar a autoestima das minhas clientes através de técnicas modernas e atendimento personalizado.
+
+Será um prazer cuidar de você!
+
+✨ Agende seu horário e venha viver uma experiência de beleza feita com carinho.
+"""
+)
+
+# ==================================================
+# NOSSOS SERVIÇOS
+# ==================================================
+
+st.markdown("---")
+
+st.markdown("## 💇 Nossos Serviços")
+
+col1, col2 = st.columns(2)
+
+with col1:
+
+    st.info("""
+👁️ **Extensão de Cílios**
+
+Realce seu olhar com técnicas modernas e acabamento natural.
+""")
+
+    st.info("""
+💇 **Mechas e Balayagem**
+
+Ilumine seus cabelos com técnicas profissionais.
+""")
+
+    st.info("""
+💆 **Tratamentos Capilares**
+
+Hidratação • Nutrição • Reconstrução
+""")
+
+with col2:
+
+    st.info("""
+💄 **Maquiagem Profissional**
+
+Para festas, eventos e ocasiões especiais.
+""")
+
+    st.info("""
+💋 **Micropigmentação**
+
+Sobrancelhas com efeito natural.
+""")
+
+    st.info("""
+✨ **Progressiva e Botox**
+
+Cabelos alinhados, brilhantes e saudáveis.
+""")
+
+# ==================================================
+# CABEÇALHO
+# =================================================
+   
 st.title("🌸 Luciana Ollyver Beauty")
 
 st.markdown(
@@ -190,6 +283,88 @@ st.info(
     "O horário será confirmado pelo WhatsApp."
 )
 
+
+# ==================================================
+# GALERIA AUTOMÁTICA
+# ==================================================
+
+st.markdown("---")
+st.markdown("## 📸 Trabalhos Realizados")
+
+PASTA_GALERIA = (
+    Path(__file__).resolve().parent
+    / "assets"
+    / "imagens"
+    / "antes_depois"
+)
+
+EXTENSOES_PERMITIDAS = {
+    ".png",
+    ".jpg",
+    ".jpeg"
+}
+
+fotos_galeria = []
+
+if PASTA_GALERIA.exists():
+
+    fotos_galeria = sorted(
+        [
+            arquivo
+            for arquivo in PASTA_GALERIA.iterdir()
+            if (
+                arquivo.is_file()
+                and arquivo.suffix.lower()
+                in EXTENSOES_PERMITIDAS
+            )
+        ],
+        reverse=True
+    )
+
+if not fotos_galeria:
+
+    st.info(
+        "A galeria será exibida quando houver "
+        "fotos cadastradas no Antes e Depois."
+    )
+
+else:
+
+    # Mostra no máximo 12 imagens
+    fotos_exibir = fotos_galeria[:12]
+
+    for inicio in range(
+        0,
+        len(fotos_exibir),
+        3
+    ):
+
+        colunas = st.columns(3)
+
+        grupo = fotos_exibir[
+            inicio:inicio + 3
+        ]
+
+        for coluna, caminho_foto in zip(
+            colunas,
+            grupo
+        ):
+
+            with coluna:
+
+                nome_legenda = (
+                    caminho_foto.stem
+                    .replace("_antes_", " • Antes • ")
+                    .replace("_depois_", " • Depois • ")
+                    .replace("_", " ")
+                    .title()
+                )
+
+                st.image(
+                    str(caminho_foto),
+                    caption=nome_legenda,
+                    use_container_width=True
+                )
 
 # ==================================================
 # FORMULÁRIO
